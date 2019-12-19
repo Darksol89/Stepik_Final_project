@@ -5,6 +5,7 @@ class BasePage():
     def __init__(self, browser, url):
         self.browser: WebDriver = browser
         self.url = url
+        
     # Открытие нужного адреса сайта
     def open(self):
         self.browser.get(self.url)
