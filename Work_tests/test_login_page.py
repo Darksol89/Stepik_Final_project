@@ -1,4 +1,5 @@
 import pytest
+import allure
 from pages.login_page import LoginPage
 from pages.base_page import BasePage
 
@@ -6,7 +7,8 @@ url = 'https://piexpertonline.power.com/site/login'
 username = 'pietest0066@piexpert.com'
 password = '@piexpert'
 
-@pytest.mark.skip
+#@pytest.mark.skip
+@allure.severity('normal')
 def test_user_open_login_page(browser):
     """
     Open target site and checking current url
@@ -16,6 +18,7 @@ def test_user_open_login_page(browser):
     login_page = LoginPage(browser, url)
     login_page.should_be_login_url()
 
+@allure.severity('trivial')
 def test_user_logged_in_to_site(browser):
     """
     User open target site and login. Logout button is visible.
