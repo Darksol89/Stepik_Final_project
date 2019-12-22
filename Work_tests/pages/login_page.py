@@ -11,4 +11,4 @@ class LoginPage(BasePage):
         assert 'login' in self.browser.current_url, 'User see wrong url link'
 
     def user_should_be_logged_to_site(self):
-        assert 'Logout' in self.browser.find_element(*Locators.Logout.LOGOUT), "User isn't log in"
+        assert 'Logout' in self.browser.find_element(*Locators.Logout.LOGOUT).text, "User isn't log in"
