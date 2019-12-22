@@ -50,15 +50,15 @@ class BasePage():
         self.waiting_loading_element(self.browser)
 
         # Submit button
-        login_button = self.browser.find_element(*Locators.Login.SUBMIT_LOGIN)
-        login_button.click()
+        #login_button = self.browser.find_element(*Locators.Login.SUBMIT_LOGIN)
+        #login_button.click()
+        self.click(self.browser, Locators.Login.SUBMIT_LOGIN)
         self.waiting_loading_element(self.browser)
 
         # If user exist in system yet
         try:
             self.waiting_loading_element(self.browser)
             WebDriverWait(self.browser, 6).until(ec.element_to_be_clickable((Locators.Login.CONTINUE_LOGIN)))
-            time.sleep(5)
             button_continue = self.browser.find_element(*Locators.Login.CONTINUE_LOGIN)
             self.waiting_loading_element(self.browser)
             button_continue.click()
@@ -66,4 +66,30 @@ class BasePage():
             print('Continue button is not appear')
             pass
 
+    # Click method
+    def click(self, browser, locator, sleep_time=3, expl_time=20):
+        """
+            Wait until element will be shown and clickable, then send 'click' to it.
+            TimeoutException will be generated if something's wrong (NOT NoSuchElementException).
+
+            :type driver: WebDriver
+            :type locator: tuple
+            :param sleep_time: delay before click
+            :param expl_wait: explicit waiting time for presence of element will found
+            :type sleep_time: float
+            :type expl_wait: float
+        """
+
+        time.sleep(sleep_time)
+        try:
+            browser.implicitly_wait(5)
+            WebDriverWait(browser, expl_time, ignored_exceptions=StaleElementReferenceException).until(
+                ec.presence_of_element_located(locator))
+        except (NoSuchElementException, TimeoutException, ElementNotInteractableException, StaleElementReferenceException):
+            # additional check were deleted, cause of some unexpected timeout exceptions on it
+            browser.implicitly_wait(5)
+            WebDriverWait(browser, 10).until(ec.element_to_be_clickable(locator))
+        self.waiting_loading_element(browser)
+        browser.find_element(*locator).click()
+        self.waiting_loading_element(browser)
 
