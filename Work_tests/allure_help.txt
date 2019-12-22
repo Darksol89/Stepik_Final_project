@@ -1,0 +1,19 @@
+Some decorators:
+
+@allure.feature('Title for report')
+@allure.story('Description')
+@allure.severity('different severity level')
+-- blocker
+--critical
+-- normal
+-- minot
+-- trivial
+
+If user can take a screenshot for report:
+added this line inside your function:
+
+with allure.step('e.g. Take a screenshot'):
+	allure.attach(browser.get_screenshot_as_png(), name='screen name', attachment_type=AttacmentType.PNG)
+
+For start script with Allure report: pytest script_name.py --alluredir 'results'
+For forming allure report (open cmd from your project): allure serve results
